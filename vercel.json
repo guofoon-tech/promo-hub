@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "rewrites": [
+    {"source":"/api/:path*","destination":"/api/index.js"},
+    {"source":"/r/:code/:productId","destination":"/api/index.js?route=ref"}
+  ],
+  "functions": {"api/index.js": {"maxDuration": 30}}
+}
