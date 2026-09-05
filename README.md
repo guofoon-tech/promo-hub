@@ -1,5 +1,5 @@
 # PROMO HUB 3.1 — Vercel Production-ready
-
+.
 This version replaces the SQLite/local-disk architecture with Vercel-compatible services:
 
 - Vercel Serverless Functions + Express adapter
