@@ -48,7 +48,8 @@ async function init(){
     await sql`CREATE TABLE IF NOT EXISTS wallet_transactions (id BIGSERIAL PRIMARY KEY,user_id BIGINT NOT NULL REFERENCES users(id),type TEXT NOT NULL,amount NUMERIC(12,2) NOT NULL,reference TEXT,description TEXT,created_at TIMESTAMPTZ NOT NULL DEFAULT NOW())`;
     await sql`CREATE TABLE IF NOT EXISTS withdrawals (id BIGSERIAL PRIMARY KEY,user_id BIGINT NOT NULL REFERENCES users(id),amount NUMERIC(12,2) NOT NULL,method TEXT NOT NULL,account_name TEXT NOT NULL,account_number TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'pending',note TEXT DEFAULT '',created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),processed_at TIMESTAMPTZ)`;
     const a=await sql`SELECT id FROM users WHERE email='admin@promohub.local'`;
-    if(!a.rows.length){const hash=await bcrypt.hash(process.env.DEFAULT_ADMIN_PASSWORD || crypto.randomBytes(18).toString('base64url'),12); await sql`INSERT INTO users(name,email,password,role,status,code) VALUES('PROMO HUB Admin','admin@promohub.local',${hash},'admin','approved',${code()})`;}
+
+    if(a.rows.length===0 && false){const hash=await bcrypt.hash(process.env.DEFAULT_ADMIN_PASSWORD || crypto.randomBytes(18).toString('base64url'),12); await sql`INSERT INTO users(name,email,password,role,status,code) VALUES('PROMO HUB Admin','admin@promohub.local',${hash},'admin','approved',${code()})`;}
     const p=await sql`SELECT COUNT(*)::int AS c FROM products`;
     if(!p.rows[0].c){await sql`INSERT INTO products(name,description,price,commission_rate,stock) VALUES('Blackmores Bio Magnesium Advanced + D3','แมกนีเซียม + D3 สำหรับดูแลสุขภาพ',850,10,100),('Blackmores Fish Oil 1000','น้ำมันปลา',650,10,100),('Blackmores Vitamin C 1000','วิตามินซี',590,8,100)`;}
   })().catch(e=>{initialized=null; throw e});
